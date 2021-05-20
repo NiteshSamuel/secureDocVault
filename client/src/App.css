@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+.topNav {
+  border: 1px solid gray;
+  padding: 20px;
+  background-color: pink;
+}
+.LeftMenu {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+.Display {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 100%;
+}
+.createFolder {
+  position: relative;
+}
