@@ -35,13 +35,13 @@ class App extends Component {
       },
       {
         id: 6,
-        name: "prathik",
+        name: "Bull Shit",
         docHash: "ssdjdffwfasd",
         catId: 1,
       },
       {
         id: 7,
-        name: "prathik",
+        name: "Man Shit",
         docHash: "ssdjdffwfasd",
         catId: 1,
       },
@@ -49,8 +49,9 @@ class App extends Component {
     items: [],
     currentItem: {
       text: "",
-      key: "",
+      key: 0,
     },
+    catCounter: 1,
     counter: [],
     web3: null,
     accounts: null,
@@ -71,16 +72,18 @@ class App extends Component {
         items: items,
         currentItem: {
           text: "",
-          key: "",
+          key: this.state.catCounter + 1,
         },
       });
+      this.setState({ catCounter: this.state.catCounter + 1 });
     }
   }
+
   handleInput(e) {
     this.setState({
       currentItem: {
         text: e.target.value,
-        key: Date.now(),
+        key: this.state.currentItem.key,
       },
     });
   }
@@ -136,6 +139,9 @@ class App extends Component {
 
   //   // Update state with the result.
   // };
+  AddDocument = () => {
+    console.log("addDocument is clicked!");
+  };
 
   render() {
     // if (!this.state.web3) {
@@ -163,12 +169,21 @@ class App extends Component {
         </div>
         <div className="LeftMenu">
           {/* left Menu */}
-          <ListItems items={this.state.items} />
+          <h2 onClick={() => console.log("ALL Card is clicked")}>ALL</h2>
+          <div
+            className="container"
+            onClick={() => console.log("each component is clicked")}
+          >
+            <ListItems items={this.state.items} />
+          </div>
         </div>
         <div className="Display">
           {/* card Display */}
 
-          <CardList DocValue={this.state.DocValue} />
+          <CardList
+            AddDocument={this.AddDocument}
+            DocValue={this.state.DocValue}
+          />
         </div>
 
         {/* <p>{this.state.DocValue}</p> */}
