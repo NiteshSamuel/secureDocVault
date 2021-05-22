@@ -43,6 +43,36 @@ class App extends Component {
         id: 7,
         name: "Man Shit",
         docHash: "ssdjdffwfasd",
+        catId: 2,
+      },
+      {
+        id: 8,
+        name: "kapil sharma",
+        docHash: "ssdjdffwfasd",
+        catId: 1,
+      },
+      {
+        id: 9,
+        name: "dinchak pooja",
+        docHash: "ssdjdffwfasd",
+        catId: 3,
+      },
+      {
+        id: 10,
+        name: "iron man",
+        docHash: "ssdjdffwfasd",
+        catId: 3,
+      },
+      {
+        id: 11,
+        name: "captain america",
+        docHash: "ssdjdffwfasd",
+        catId: 3,
+      },
+      {
+        id: 12,
+        name: "black widow",
+        docHash: "ssdjdffwfasd",
         catId: 1,
       },
     ],
@@ -142,6 +172,9 @@ class App extends Component {
   AddDocument = () => {
     console.log("addDocument is clicked!");
   };
+  handleItem = () => {
+    console.log("item is clicked");
+  };
 
   render() {
     // if (!this.state.web3) {
@@ -170,11 +203,11 @@ class App extends Component {
         <div className="LeftMenu">
           {/* left Menu */}
           <h2 onClick={() => console.log("ALL Card is clicked")}>ALL</h2>
-          <div
-            className="container"
-            onClick={() => console.log("each component is clicked")}
-          >
-            <ListItems items={this.state.items} />
+          <div className="container">
+            <ListItems
+              handleInput={this.handleInput}
+              items={this.state.items}
+            />
           </div>
         </div>
         <div className="Display">

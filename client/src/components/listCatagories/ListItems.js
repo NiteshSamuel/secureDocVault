@@ -5,9 +5,7 @@ function ListItems(props) {
   const items = props.items;
   const listItems = items.map((item) => {
     return (
-      <div className="list" key={item.key}>
-        {console.log(items)}
-
+      <div className="list" key={item.key} onClick={props.handleInput}>
         <h2>{item.text}</h2>
       </div>
     );
