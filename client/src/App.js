@@ -3,6 +3,7 @@ import SimpleStorageContract from "./contracts/SimpleStorage.json";
 import getWeb3 from "./getWeb3";
 //import Frame from "react-frame-component";
 import "./App.css";
+import ipfs from "./ipfs";
 import ListItems from "./components/listCatagories/ListItems";
 import { CardList } from "./components/card-list/card-list";
 import Button from "@material-ui/core/Button";
@@ -76,6 +77,8 @@ class App extends Component {
       //   catId: 1,
       // },
     ],
+    buffer: null,
+    ipfsHash: null,
     DocCopy: [],
     items: [],
     currentItem: {
@@ -178,6 +181,32 @@ class App extends Component {
 
     // Update state with the result.
   };
+  captureFile = (event) => {
+    event.preventDefault();
+    console.log("File capture...");
+    const file = event.target.files[0];
+    const fileName = file.name;
+    console.log(fileName);
+    const reader = new window.FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onloadend = () => {
+      this.setState({ buffer: Buffer(reader.result) });
+      console.log(this.state.buffer);
+    };
+  };
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    console.log(this.state.buffer);
+    ipfs.files.add(this.state.buffer, (error, result) => {
+      if (error) {
+        console.log(error);
+        return;
+      }
+      this.setState({ ipfsHash: result[0].hash });
+      console.log("Hash: ", result[0].hash);
+    });
+  };
   AddDocument = () => {
     console.log("addDocument is clicked!");
   };
@@ -229,7 +258,8 @@ class App extends Component {
           {/* card Display */}
 
           <CardList
-            AddDocument={this.AddDocument}
+            captureFile={this.captureFile}
+            onSubmit={this.onSubmit}
             DocValue={this.state.DocCopy}
           />
         </div>
