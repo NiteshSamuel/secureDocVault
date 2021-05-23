@@ -8,8 +8,8 @@ export const CardList = (props) => {
       <div className="AddDocument" onClick={props.AddDocument}>
         <h1>+ADD</h1>
       </div>
-      {props.DocValue.map((value) => (
-        <Card key={value.id} value={value} />
+      {props.DocValue.map((value, i) => (
+        <Card key={i} value={value} />
       ))}
     </div>
   );
