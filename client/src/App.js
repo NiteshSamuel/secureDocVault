@@ -78,6 +78,11 @@ class App extends Component {
       // },
     ],
     buffer: null,
+    DocumentID: null,
+    CatID: null,
+    CatName: null,
+    fileName: null,
+    fileType: null,
     ipfsHash: null,
     DocCopy: [],
     items: [],
@@ -139,7 +144,10 @@ class App extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, accounts, contract: instance }, this.runExample);
+      this.setState(
+        { web3, accounts: accounts, contract: instance },
+        this.runExample
+      );
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -169,12 +177,15 @@ class App extends Component {
             .call();
           if (docval.catId > 0) {
             this.setState({ DocValue: [...this.state.DocValue, docval] });
-            console.log("valueinside:", this.state.DocValue);
+            //var catPut = { text: docval.catagoireName, key: docval.catId };
+
+            //this.setState({ items: [...this.state.items, catPut] });
+            console.log("valueinside:", docval);
+            // console.log("catPut: ", catPut);
           }
         }
       }
     }
-    console.log("counter", this.state.counter);
     //console.log("value:", this.state.DocValue);
     //console.log(docval);
     // Get the value from the contract to prove it worked.
@@ -186,7 +197,8 @@ class App extends Component {
     console.log("File capture...");
     const file = event.target.files[0];
     const fileName = file.name;
-    console.log(fileName);
+    const extension = fileName.split(".").pop();
+    console.log(fileName, extension);
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
     reader.onloadend = () => {
@@ -203,21 +215,56 @@ class App extends Component {
         console.log(error);
         return;
       }
+      // this.state.contract.methods
+      //   .addDocument(
+      //     this.state.DocumentID,
+      //     this.state.CatID,
+      //     this.state.fileName,
+      //     this.state.fileType,
+      //     result[0].hash,
+      //     this.state.CatName
+      //   )
+      //   .send({ from: this.state.accounts[0] })
+      //   .then((r) => {
+      //     this.setState({ ipfsHash: result[0].hash });
+      //     console.log("Hash: ", result[0].hash);
+      //   });
       this.setState({ ipfsHash: result[0].hash });
       console.log("Hash: ", result[0].hash);
     });
   };
-  AddDocument = () => {
+  addDocument = () => {
     console.log("addDocument is clicked!");
+    console.log(
+      "checking one time",
+      this.state.CatName,
+      " ",
+      this.state.CatID,
+      " ",
+      this.state.DocumentID,
+      " ",
+      this.state.fileType,
+      " ",
+      this.state.ipfsHash
+    );
   };
+
+  //clicked on items
   handleItem = (i) => {
     let product;
     let filterVal = this.state.items[i - 1];
+    console.log("items: ", filterVal.key);
     product = this.state.DocValue.filter((item) => item.catId == filterVal.key);
     this.setState({
       DocCopy: product,
     });
+    this.setState({
+      CatName: filterVal.text,
+      CatID: filterVal.key,
+      DocumentID: this.state.counter[i],
+    });
   };
+  // clicked on all
   allClicked = () => {
     console.log("All buttom is clicked");
     this.setState({ DocCopy: this.state.DocValue });
@@ -258,6 +305,7 @@ class App extends Component {
           {/* card Display */}
 
           <CardList
+            addDocument={this.addDocument}
             captureFile={this.captureFile}
             onSubmit={this.onSubmit}
             DocValue={this.state.DocCopy}

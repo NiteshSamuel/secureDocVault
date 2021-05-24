@@ -6,7 +6,9 @@ export const CardList = (props) => {
   return (
     <div className="card-list">
       <div className="AddDocument">
-        <h2>uplode File</h2>
+        <button className="upload" onClick={props.addDocument}>
+          <h2>uplode File</h2>
+        </button>
         <form onSubmit={props.onSubmit}>
           <input type="file" onChange={props.captureFile} />
           <input type="submit" />
