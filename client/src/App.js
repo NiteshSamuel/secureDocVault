@@ -198,6 +198,7 @@ class App extends Component {
     const file = event.target.files[0];
     const fileName = file.name;
     const extension = fileName.split(".").pop();
+    this.setState({ fileName, fileType: extension });
     console.log(fileName, extension);
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(file);
@@ -215,20 +216,7 @@ class App extends Component {
         console.log(error);
         return;
       }
-      // this.state.contract.methods
-      //   .addDocument(
-      //     this.state.DocumentID,
-      //     this.state.CatID,
-      //     this.state.fileName,
-      //     this.state.fileType,
-      //     result[0].hash,
-      //     this.state.CatName
-      //   )
-      //   .send({ from: this.state.accounts[0] })
-      //   .then((r) => {
-      //     this.setState({ ipfsHash: result[0].hash });
-      //     console.log("Hash: ", result[0].hash);
-      //   });
+
       this.setState({ ipfsHash: result[0].hash });
       console.log("Hash: ", result[0].hash);
     });
@@ -245,8 +233,24 @@ class App extends Component {
       " ",
       this.state.fileType,
       " ",
-      this.state.ipfsHash
+      this.state.ipfsHash,
+      " ",
+      this.state.fileName
     );
+
+    this.state.contract.methods
+      .addDocument(
+        this.state.DocumentID,
+        this.state.CatID,
+        this.state.fileName,
+        this.state.fileType,
+        this.state.ipfsHash,
+        this.state.CatName
+      )
+      .send({ from: this.state.accounts[0] })
+      .then((r) => {
+        console.log("Successfully add..");
+      });
   };
 
   //clicked on items
