@@ -235,22 +235,31 @@ class App extends Component {
       " ",
       this.state.ipfsHash,
       " ",
-      this.state.fileName
+      this.state.fileNames
     );
 
-    this.state.contract.methods
-      .addDocument(
-        this.state.DocumentID,
-        this.state.CatID,
-        this.state.fileName,
-        this.state.fileType,
-        this.state.ipfsHash,
-        this.state.CatName
-      )
-      .send({ from: this.state.accounts[0] })
-      .then((r) => {
-        console.log("Successfully add..");
-      });
+    if (
+      this.state.CatName &&
+      this.state.CatID &&
+      this.state.DocumentID &&
+      this.state.fileType &&
+      this.state.ipfsHash &&
+      this.state.fileName
+    ) {
+      this.state.contract.methods
+        .addDocument(
+          this.state.DocumentID,
+          this.state.CatID,
+          this.state.fileName,
+          this.state.fileType,
+          this.state.ipfsHash,
+          this.state.CatName
+        )
+        .send({ from: this.state.accounts[0] })
+        .then((r) => {
+          console.log("Successfully add..");
+        });
+    } else alert("Some value are missing! please cheack once again");
   };
 
   //clicked on items
